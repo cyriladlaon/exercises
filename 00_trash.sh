@@ -22,7 +22,7 @@ case $1 in
  *)
     for var in $@; 
     do
-            [ ! -d ~/.mytrash/ ] && mkdir ~/.mytrash/
+            mkdir -p ~/.mytrash
             mv "$var" ~/.mytrash/
     echo "Trashing files"
 done
