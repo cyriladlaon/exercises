@@ -17,7 +17,7 @@ class Journal(object):
 		stream = open("birthdays.yaml", "r")
 		docs = yaml.load_all(stream)
 		for data in docs:
-			print(data)
+			print(yaml.dump(data))
 journal = Journal()
 journal.read_input()
 #I'm still trying to figure out on how to solve this sir, lag brain.
