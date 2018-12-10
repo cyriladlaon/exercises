@@ -17,12 +17,10 @@ class Journal(object):
         with open("birthdays.yaml", 'r') as stream:
             try:
                 data=yaml.load(stream)
-                for key, value in data.items():
-                    for x in range(4):
-                        # print (yaml.dump(value[x]))
-                        temp_data_storage =yaml.dump(value[x])
-                        date, name = temp_data_storage.split(',')
-                        self.add_entry(date, name)
+                for lines in data['birthdays']:
+                    date = lines['date']
+                    name = lines['name']
+                    self.add_entry(date, name)
             except yaml.YAMLError as exc:
                 print(exc)
 
