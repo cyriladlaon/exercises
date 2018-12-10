@@ -31,14 +31,12 @@ class Journal(object):
             'date': date,
             'name': name
         })
-
     def view_entries(self):
         print('Date\t\t  | Name')
         print('---' * 16)
         for entry in self.entries:
             date, name = entry.values()
-            print(date, '|', end=' ')
-            print(name)
+            print(date, "\t  ", name)
 
     def search_entry(self, query=''):
         query= input("Enter name that you want to search: ")
@@ -46,16 +44,37 @@ class Journal(object):
         print(matched_entries)
         return query
 
-    def delete_entry(self, query=''):
-        delete_target= input("Enter name that you want to delete: ")
-        matched_entries = [entry for entry in self.entries if query in entry['name'].lower()]
-        if matched_entries in self.entries: self.entries.remove(matched_entries)
+    def delete_entry(self):
+        print("\n")
+        target_index = int (input("Enter index that you want to delete: "))
+        print("Deleted Info: ",self.entries[target_index])
+        self.entries.pop(target_index)
+
+        print("\n")
+        self.view_entries()
         return self.entries
+
+
+    def edit_entry(self):
+        print("\n")
+        specific_index = int (input("Enter index that you want to edit: "))
+        specific_element_to_change = input("Press (n) for name and (d) for date: ")
+        if specific_element_to_change == 'n':
+            new_name = input("New Name: ")
+            self.entries[specific_index]['name'] = new_name
+        elif specific_element_to_change == 'd':
+            new_date = input("New Date: ")
+            self.entries[specific_index]["date"] = new_date
+        else:
+            print("Invalid input!")
+
+        print("\n")
+        self.view_entries()
 
     def export_entries(self, file_name):
         with open(file_name, 'w') as f:
             f.writelines([
-                '{date}|{name}'.format_map(entry)
+                '{date}|{name}\n'.format_map(entry)
                 for entry in self.entries
                 ])
 
@@ -64,5 +83,6 @@ journal.read_input()
 print("birthdays")
 journal.view_entries()
 journal.search_entry(query='')
-journal.delete_entry(query='')
+journal.delete_entry()
+journal.edit_entry()
 journal.export_entries(file_name='birthdays_backup.yaml')
